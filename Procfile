@@ -1,1 +1,1 @@
-web: gunicorn kakao-hyeji-bot:app
+web: gunicorn hyeji_bot:app
