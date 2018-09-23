@@ -1,1 +1,1 @@
-web: gunicorn hyeji_bot:app
+web: gunicorn hyejibot:app
