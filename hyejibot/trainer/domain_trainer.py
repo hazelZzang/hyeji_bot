@@ -1,6 +1,7 @@
 import torch
 from torch import optim
 import torch.nn as nn
+import os
 
 class DomainTrainer:
     def __init__(self, embedding, model,
@@ -62,4 +63,8 @@ class DomainTrainer:
 
             # early stop
             if train_log["acc"] == 1.0:
+                dir_path = os.path.dirname(os.path.realpath(__file__))
+                dir_path = os.path.join(dir_path, "..", self.config.save_path)
+                save_file = "ckpt_" + str(i) + "_" + str(self.config.hidden) + ".pth"
+                torch.save(self.model.state_dict(), os.path.join(dir_path, save_file))
                 break

@@ -11,6 +11,7 @@ class SelfAttention(nn.Module):
         self.num_layers = num_layers
 
         self.cell = nn.LSTM(input_size, self.hidden_dim, num_layers=self.num_layers, dropout=dropout, batch_first=True, bidirectional=True)
+        self.drop = nn.Dropout(dropout)
         self.self_attention = nn.Sequential(
             nn.Linear(self.hidden_dim, self.hidden_dim//2),
             nn.Tanh(),
@@ -26,6 +27,7 @@ class SelfAttention(nn.Module):
 
     def forward(self, x):
         outputs, hidden = self.cell(x, self.init_hidden(x.size(0)))
+        outputs = self.drop(outputs)
         outputs = outputs[:,:,:self.hidden_dim]+outputs[:,:,self.hidden_dim:] # B * C * H
         attention = self.self_attention(outputs)
         sentence_embeddings = attention.transpose(1,2)@outputs
