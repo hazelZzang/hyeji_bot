@@ -1,4 +1,4 @@
-from hyejibot import app
+from hyejibot.app import app
 
 if __name__ == "__main__":
     app.debug = True
