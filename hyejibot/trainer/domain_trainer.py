@@ -4,8 +4,11 @@ import torch.nn as nn
 import os
 
 class DomainTrainer:
-    def __init__(self, embedding, model,
-                 config, data_loader, valid_data_loader=None):
+    def __init__(self, embedding, model, config,
+                 src_lang, trg_lang,
+                 data_loader, valid_data_loader=None):
+        self.src_lang = src_lang
+        self.trg_lang = trg_lang
         self.embedding = embedding
         self.model = model
         self.loss = nn.CrossEntropyLoss()
@@ -66,5 +69,9 @@ class DomainTrainer:
                 dir_path = os.path.dirname(os.path.realpath(__file__))
                 dir_path = os.path.join(dir_path, "..", self.config.save_path)
                 save_file = "ckpt_" + str(i) + "_" + str(self.config.hidden) + ".pth"
-                torch.save(self.model.state_dict(), os.path.join(dir_path, save_file))
+                torch.save({'model' : self.model,
+                            'embedding' : self.embedding,
+                            'src_lang' : self.src_lang,
+                            'trg_lang' : self.trg_lang,
+                            }, os.path.join(dir_path, save_file))
                 break

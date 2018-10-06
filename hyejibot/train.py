@@ -12,5 +12,7 @@ loaders, src_lang, trg_lang = get_loaders(file_path, [config.batch,1,1], [0.8,0.
 embedding = PhonemeEmbedding(src_lang.n_words, config.hidden)
 model = SelfAttention(config.hidden, config.batch, config.hidden,
                       num_layers=config.layers, dropout=config.dropout, n_classes=trg_lang.n_words)
-trainer = DomainTrainer(embedding, model, config, data_loader=loaders[0], valid_data_loader=loaders[1])
+trainer = DomainTrainer(embedding, model, config,
+                        src_lang = src_lang,trg_lang = trg_lang,
+                        data_loader=loaders[0], valid_data_loader=loaders[1])
 trainer.train()

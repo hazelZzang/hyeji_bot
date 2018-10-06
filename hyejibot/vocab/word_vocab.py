@@ -12,5 +12,6 @@ class WordVocab:
             self.word2cnt[word] += 1
         else:
             self.word2idx[word] = self.n_words
+            self.idx2word[self.n_words] = word
             self.word2cnt[word] = 1
             self.n_words += 1

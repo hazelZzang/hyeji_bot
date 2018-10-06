@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, request
-
+from hyejibot.classifier import Classifier
 app = Flask(__name__)
+c = Classifier()
 
 @app.route("/keyboard")
 def main_key():
     target_json = {
         "type" : "buttons",
-        "buttons" : ["자기소개"]
+        "buttons" : ["대화를 시작해봐요!"]
     }
     return jsonify(target_json)
 
@@ -15,12 +16,9 @@ def main_key():
 def return_func():
     target_json = {}
     msg_content = request.get_json() # user_key, type, content
-    if msg_content["content"].startswith("혜지야"):
-        target_json["message"] = {
-            "text" : "안뇽 방가루"
-        }
-    else:
-        target_json["message"] = {
-            "text" : "한국어를 배우고 있다 가나다라마..바!"
-        }
+    intent = c.classification(msg_content)
+    answer = c.get_answer(intent)
+    target_json["message"] = {
+        "text" : answer
+    }
     return jsonify(target_json)
