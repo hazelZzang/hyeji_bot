@@ -1,2 +1,4 @@
 hyejibot/trainer
 hyejibot/dataset
+hyejibot/data/raw
+hyejibot/data/train
